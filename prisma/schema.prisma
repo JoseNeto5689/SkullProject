@@ -31,7 +31,9 @@ model UsersOnEnterprise {
 
 model User {
   id          String              @id @default(uuid())
-  name        String
+  email       String              @unique
+  userName    String
+  password    String
   enterprises UsersOnEnterprise[]
   Enterprise  Enterprise[]
 }
