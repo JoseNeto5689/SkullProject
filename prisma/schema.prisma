@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Enterprise {
+  id     String              @id @default(uuid())
+  name   String
+  users  UsersOnEnterprise[]
+  chef   User                @relation(fields: [userId], references: [id])
+  userId String
+
+  @@index([userId])
+}
+
+model UsersOnEnterprise {
+  id           String     @id @default(uuid())
+  User         User       @relation(fields: [userId], references: [id])
+  userId       String
+  Enterprise   Enterprise @relation(fields: [enterpriseId], references: [id])
+  enterpriseId String
+
+  @@index([userId])
+  @@index([enterpriseId])
+}
+
+model User {
+  id          String              @id @default(uuid())
+  name        String
+  enterprises UsersOnEnterprise[]
+  Enterprise  Enterprise[]
+}
