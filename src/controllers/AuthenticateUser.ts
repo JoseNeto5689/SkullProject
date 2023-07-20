@@ -1,8 +1,8 @@
 import prismaClient from "../database";
 import { Request, Response } from "express";
 import { compare } from "bcryptjs"
-import { sign } from "jsonwebtoken"
 import GenerateRefreshToken from "../provider/GenerateRefreshToken";
+import GenerateToken from "../provider/GenerateToken";
 
 interface IRequest {
     email: string,
@@ -27,12 +27,7 @@ class AuthenticateUser {
 
             if (!passwdMatch) return res.status(401).json({ status: "The password dont match" })
 
-            const secret = String(process.env.SECRET)
-
-            const token = sign({}, secret, {
-                expiresIn: "1m",
-                subject: user.id
-            })
+            const token = await GenerateToken.execute(user.id)
 
             const refreshToken = await GenerateRefreshToken.execute(user.id)
 

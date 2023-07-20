@@ -1,7 +1,6 @@
 import prismaClient from "../database";
 import { Request, Response } from "express";
 import { hash } from "bcryptjs"
-import jwt from "jsonwebtoken";
 
 class createUserController {
     async handle(req: Request, res: Response) {
@@ -27,11 +26,8 @@ class createUserController {
                 }
             })
                 .then(item => {
-                    res.json({ status: "User created", ...item })
+                    res.json({ ...item })
                 })
-
-
-
 
         }
         catch (error) {
