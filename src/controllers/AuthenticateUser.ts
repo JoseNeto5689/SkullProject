@@ -29,6 +29,12 @@ class AuthenticateUser {
 
             const token = await GenerateToken.execute(user.id)
 
+            await prismaClient.refreshToken.deleteMany({
+                where: {
+                    userId: user.id
+                }
+            })
+
             const refreshToken = await GenerateRefreshToken.execute(user.id)
 
             return res.json({ token, refreshToken })
