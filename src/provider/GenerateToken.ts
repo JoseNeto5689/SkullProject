@@ -5,7 +5,7 @@ class GenerateToken {
         const secret = String(process.env.SECRET)
 
         const token = sign({}, secret, {
-            expiresIn: "1m",
+            expiresIn: "5m",
             subject: userId
         })
 
