@@ -1,13 +1,14 @@
 import { Router } from "express";
-import findUsersByEnterprise from "../controllers/findUsersByEnterprise";
-import Auth from "../controllers/Auth";
-import Sign from "../controllers/Sign";
+import findUsersByEnterprise from "../controllers/FindUsersByEnterprise";
+import createUser from "../controllers/CreateUser";
+import authenticateUser from "../controllers/AuthenticateUser";
+import ensureAuthenticate from "../middlewares/ensureAuthenticated";
 
 const router = Router()
 
-router.get("/users/:id", findUsersByEnterprise.handle)
+router.get("/users/:id", ensureAuthenticate, findUsersByEnterprise.handle)
 
-router.post("/sign", Sign.create)
-router.post("/auth", Auth.login)
+router.post("/user", createUser.handle)
+router.post("/login", authenticateUser.handle)
 
 export { router }
