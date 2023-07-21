@@ -15,26 +15,64 @@ class deleteUser {
                         select: {
                             id: true
                         }
+                    },
+                    enterprises: {
+                        select: {
+                            id: true
+                        }
+                    },
+                    refresh_token: {
+                        select: {
+                            id: true
+                        }
                     }
+
                 }
             })
 
-            if (user?.Enterprise) {
-                await user?.Enterprise.forEach(item => {
-                    prismaClient.enterprise.delete({
-                        where: {
-                            id: item.id
-                        }
-                    })
+            const isChef = user?.Enterprise
+            const isUserOfEnterprise = user?.enterprises
+            const hasRefreshToken = user?.refresh_token
+
+            if (isUserOfEnterprise) {
+                await prismaClient.usersOnEnterprise.deleteMany({
+                    where: {
+                        userId: id
+                    }
                 })
             }
+            if (isChef) {
+                let enterprises = user.Enterprise.map(item => item.id)
+
+                await prismaClient.usersOnEnterprise.deleteMany({
+                    where: {
+                        enterpriseId: {
+                            in: enterprises
+                        }
+                    }
+                })
+
+                await prismaClient.enterprise.deleteMany({
+                    where: {
+                        userId: id
+                    }
+                })
+            }
+            if (hasRefreshToken) {
+                await prismaClient.refreshToken.deleteMany({
+                    where: {
+                        userId: id
+                    }
+                })
+            }
+
             await prismaClient.user.delete({
                 where: {
                     id
                 }
             })
 
-            return res.json({ status: "Deletado com sucesso" })
+            return res.json({ status: "Deleted" })
 
         }
 

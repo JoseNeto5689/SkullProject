@@ -6,12 +6,19 @@ class deleteUser {
         const { id } = req.params
 
         try {
-            const enterprise = await prismaClient.enterprise.delete({
+
+            await prismaClient.usersOnEnterprise.deleteMany({
+                where: {
+                    enterpriseId: id
+                }
+            })
+
+            await prismaClient.enterprise.delete({
                 where: {
                     id
                 }
             })
-            res.json(enterprise)
+            return res.json({ status: "Deleted" })
         }
         catch (error) {
             res.status(400).json({ error })

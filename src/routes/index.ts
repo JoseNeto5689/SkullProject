@@ -9,6 +9,7 @@ import findAllEnterprise from "../controllers/FindAllEnterprise";
 import FindUser from "../controllers/FindUser";
 import DeleteUser from "../controllers/DeleteUser";
 import DeleteEnterprise from "../controllers/DeleteEnterprise";
+import addUserToEnterprise from "../controllers/AddUserToEnterprise";
 
 const router = Router()
 
@@ -20,8 +21,8 @@ router.get("/enterprise/config/:id", ensureAuthenticate, findEnterprise.handle)
 router.post("/user", createUser.handle)
 router.post("/login", authenticateUser.handle)
 router.post("/refresh-token", refreshToken.handle)
+router.post("/add/:userId/:enterpriseId", addUserToEnterprise.handle)
 
-//Consertar delete, para remover primeiro a conexão entre as tabelas
 router.delete("/user/:id", DeleteUser.handle)
 router.delete("/enterprise/:id", DeleteEnterprise.handle)
 
