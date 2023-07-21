@@ -6,12 +6,17 @@ class findUser {
         const { id } = req.params
 
         try {
-            const users = await prismaClient.user.findFirst({
+            const user = await prismaClient.user.findFirst({
                 where: {
                     id
                 }
             })
-            res.json(users)
+
+            if (!user) {
+                res.status(404).json({ status: "User not found" })
+            }
+
+            res.json(user)
         }
         catch (error) {
             res.status(400).json({ error })

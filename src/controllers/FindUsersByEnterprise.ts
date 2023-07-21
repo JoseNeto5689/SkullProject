@@ -20,6 +20,11 @@ class findUsersByEnterprise {
                     enterpriseId: id
                 }
             })
+
+            if (!users) {
+                return res.status(404).json({ status: "This enterprise dont have users registered" })
+            }
+
             const response = users.map((item) => item.User)
             res.json(response)
         }

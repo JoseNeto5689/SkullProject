@@ -12,7 +12,7 @@ model Enterprise {
   id     String              @id @default(uuid())
   name   String
   users  UsersOnEnterprise[]
-  chef   User                @relation(fields: [userId], references: [id])
+  admin  User                @relation(fields: [userId], references: [id])
   userId String
   config Json
 

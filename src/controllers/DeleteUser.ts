@@ -43,7 +43,6 @@ class deleteUser {
             }
             if (isChef) {
                 let enterprises = user.Enterprise.map(item => item.id)
-
                 await prismaClient.usersOnEnterprise.deleteMany({
                     where: {
                         enterpriseId: {
