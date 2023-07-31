@@ -8,17 +8,22 @@ import authenticateUser from "../controllers/AuthenticateUser";
 import findUsersByEnterprise from "../controllers/FindUsersByEnterprise";
 import findEnterprise from "../controllers/FindEnterprise";
 import findAllEnterprise from "../controllers/FindAllEnterprise";
-import findUser from "../controllers/FindUser";
+import findUsers from "../controllers/FindUsers";
 import deleteUser from "../controllers/DeleteUser";
 import deleteEnterprise from "../controllers/DeleteEnterprise";
 import addUserToEnterprise from "../controllers/AddUserToEnterprise";
 import createEnterprise from "../controllers/CreateEnterprise";
 import updateEnterprise from "../controllers/UpdateEnterprise";
 import UpdateUser from "../controllers/UpdateUser";
+import CheckAuthentication from "../controllers/CheckAuth";
+import findUser from "../controllers/findUser";
 
 const router = Router()
 
-router.get("/users", ensureAuthenticate, findUser.handle)
+router.get("/auth", ensureAuthenticate, CheckAuthentication.handle)
+
+router.get("/user/:id", ensureAuthenticate, findUser.handle)
+router.get("/users", ensureAuthenticate, findUsers.handle)
 router.get("/users/:id", ensureAuthenticate, findUsersByEnterprise.handle)
 router.get("/enterprise", ensureAuthenticate, findAllEnterprise.handle)
 router.get("/enterprise/:id", ensureAuthenticate, findEnterprise.handle)

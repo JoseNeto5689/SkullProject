@@ -4,7 +4,6 @@ import { Request, Response } from "express";
 class findUser {
     async handle(req: Request, res: Response) {
         const { id } = req.params
-
         try {
             const user = await prismaClient.user.findFirst({
                 where: {
@@ -13,7 +12,7 @@ class findUser {
             })
 
             if (!user) {
-                res.status(404).json({ status: "User not found" })
+                return res.status(404).json({ status: "User not found" })
             }
 
             res.json(user)
