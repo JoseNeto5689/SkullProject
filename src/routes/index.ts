@@ -16,18 +16,21 @@ import createEnterprise from "../controllers/CreateEnterprise";
 import updateEnterprise from "../controllers/UpdateEnterprise";
 import UpdateUser from "../controllers/UpdateUser";
 import CheckAuthentication from "../controllers/CheckAuth";
-import findUser from "../controllers/findUser";
+import FindUser from "../controllers/findUser";
+import SendNotification from "../controllers/SendNotification";
+import SendEmail from "../controllers/SendEmail";
 
 const router = Router()
 
 router.get("/auth", ensureAuthenticate, CheckAuthentication.handle)
-
-router.get("/user/:id", ensureAuthenticate, findUser.handle)
+router.get("/user/:id", ensureAuthenticate, FindUser.handle)
 router.get("/users", ensureAuthenticate, findUsers.handle)
 router.get("/users/:id", ensureAuthenticate, findUsersByEnterprise.handle)
 router.get("/enterprise", ensureAuthenticate, findAllEnterprise.handle)
 router.get("/enterprise/:id", ensureAuthenticate, findEnterprise.handle)
+router.get("/form", SendEmail.handle)
 
+router.post("/send-notification", ensureAuthenticate, SendNotification.handle)
 router.post("/user", createUser.handle)
 router.post("/enterprise", ensureAuthenticate, createEnterprise.handle)
 router.post("/login", authenticateUser.handle)
